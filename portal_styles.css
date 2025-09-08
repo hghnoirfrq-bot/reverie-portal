@@ -1,106 +1,69 @@
-/* General Body & Brand Styles */
-:root {
-    --bg-color: #121212;
-    --text-color: #E0E0E0;
-    --link-color: #B0B0B0;
-    --hover-color: #FFFFFF;
-    --border-color: #333;
-    --accent-blue: #58a6ff;
-    --accent-green: #238636;
-    --accent-yellow: #d29922;
-    --accent-red: #f85149;
-    --font-mono: 'Roboto Mono', monospace;
-    --font-sans: 'Source Sans Pro', sans-serif;
+/* Add your existing styles here, then append the new chat styles at the end */
+
+/* ... (all previous styles) ... */
+
+/* Messaging Styles */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; min-height: 100vh; }
-.header { background-color: #1a1a1a; padding: 1rem 2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-.brand { font-family: var(--font-mono); font-size: 1.4rem; font-weight: bold; }
-.header-left, .admin-info, .client-info { display: flex; align-items: center; gap: 1.5rem; }
-.client-name { font-family: var(--font-mono); color: var(--link-color); }
-.main-content { display: grid; gap: 2rem; padding: 2rem; max-width: 1600px; margin: 0 auto; }
-.main-content:has(.sidebar) { grid-template-columns: 300px 1fr; }
-.main-content:has(.left-panel) { grid-template-columns: 1fr 350px; }
-.sidebar, .right-panel, .content-area, .left-panel { display: flex; flex-direction: column; gap: 1.5rem; }
-.section { background-color: #1c1c1c; border: 1px solid var(--border-color); border-radius: 6px; padding: 1.5rem; }
-.section-title { font-family: var(--font-mono); font-size: 1rem; font-weight: bold; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; color: var(--text-color); }
-.btn, .logout, .phase-tab { padding: 0.6rem 1.2rem; border: 1px solid var(--border-color); border-radius: 4px; background-color: #252525; color: var(--text-color); font-family: var(--font-mono); font-size: 0.8rem; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s; }
-.btn:hover, .logout:hover, .phase-tab:hover { background-color: #333; color: var(--hover-color); border-color: var(--link-color); }
-.btn-primary { background-color: var(--accent-green); border-color: var(--accent-green); }
-.btn-primary:hover { background-color: #2ea043; }
-.empty-state { text-align: center; color: var(--link-color); padding: 2rem 1rem; font-style: italic; font-size: 0.9rem; }
-.binary-signature { text-align: center; font-size: 0.8rem; color: var(--link-color); padding: 1rem; border-top: 1px solid var(--border-color); margin-top: 2rem; font-family: var(--font-mono); }
-.client-card { background-color: #252525; border: 1px solid var(--border-color); border-radius: 4px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s; }
-.client-card:hover { border-color: var(--accent-blue); }
-.client-card.active { border-color: var(--accent-green); background-color: #333; }
-.client-card .client-name { font-family: var(--font-mono); font-weight: bold; margin-bottom: 0.3rem; }
-.client-status { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 10px; font-weight: bold; display: inline-block; }
-.status-active { background-color: var(--accent-green); }
-.status-pending { background-color: var(--accent-yellow); color: #121212; }
-.status-overdue { background-color: var(--accent-red); }
-.client-meta { font-family: var(--font-sans); font-size: 0.9rem; color: var(--link-color); margin-top: 0.5rem; }
-.client-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
-.client-header .client-info h2 { font-family: var(--font-sans); font-size: 1.5rem; }
-.project-name { font-family: var(--font-mono); color: var(--link-color); font-size: 0.9rem; }
-.phase-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; }
-.phase-tab.active { background-color: var(--accent-green); border-color: var(--accent-green); }
-.phase-content { display: none; }
-.phase-content.active { display: block; }
-.checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.checklist-section { background-color: #1a1a1a; border-radius: 4px; padding: 1.5rem; }
-.checklist-title { font-family: var(--font-mono); font-weight: bold; margin-bottom: 1rem; color: var(--accent-blue); }
-.checklist-item, .track-status-item { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
-.checklist-item .progress-checkbox { transform: scale(1.2); }
-.checklist-item label { flex: 1; cursor: pointer; font-size: 0.9rem; }
-.checklist-item.completed label { text-decoration: line-through; color: var(--link-color); }
-.progress-summary { margin-bottom: 2rem; }
-.progress-bar { width: 100%; height: 8px; background-color: #333; border-radius: 4px; overflow: hidden; margin-bottom: 0.5rem; }
-.progress-fill { height: 100%; background-color: var(--accent-green); transition: width 0.3s; }
-.progress-text { font-family: var(--font-mono); font-size: 0.8rem; color: var(--link-color); }
-.payment-section { background-color: #1a1a1a; border-radius: 4px; padding: 1.5rem; }
-.payment-amount { font-family: var(--font-mono); font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow); }
-.payment-meta, .payment-description { font-size: 0.9rem; color: var(--link-color); margin: 0.3rem 0 1rem; }
-.payment-actions { display: flex; gap: 0.5rem; }
-.payment-method { font-size: 0.9rem; margin-bottom: 1rem; }
-.progress-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
-.progress-card { background-color: #1a1a1a; border-radius: 4px; padding: 1rem; text-align: center; }
-.progress-label { font-family: var(--font-mono); font-size: 0.9rem; color: var(--link-color); margin-bottom: 0.5rem; }
-.progress-status { font-family: var(--font-mono); font-size: 1.1rem; font-weight: bold; }
-.status-complete { color: var(--accent-green); }
-.status-progress { color: var(--accent-yellow); }
-.status-pending { color: var(--link-color); }
-.next-session { border: 1px solid var(--accent-blue); background-color: #1a1a1a; border-radius: 4px; padding: 1rem; }
-.next-session-title { font-family: var(--font-mono); color: var(--accent-blue); font-weight: bold; margin-bottom: 0.5rem; }
-.files-list, .quick-actions { display: flex; flex-direction: column; gap: 0.8rem; }
-@media (max-width: 1200px) { .main-content:has(.sidebar) { grid-template-columns: 1fr; } .checklist-grid { grid-template-columns: 1fr; } }
-@media (max-width: 1024px) { .main-content:has(.left-panel) { grid-template-columns: 1fr; } .progress-grid { grid-template-columns: 1fr; } }
-.track-status-item { justify-content: space-between; font-size: 0.9rem; }
-.track-status-select { background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.4rem 0.6rem; color: var(--text-color); font-family: var(--font-sans); flex-grow: 1; cursor: pointer; }
-.track-status-select[data-status="not-started"] { border-left: 3px solid var(--link-color); }
-.track-status-select[data-status="in-progress"] { border-left: 3px solid var(--accent-yellow); }
-.track-status-select[data-status="complete"] { border-left: 3px solid var(--accent-green); }
-.track-count-setter { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
-.track-count-setter label { font-size: 0.9rem; font-family: var(--font-sans); }
-.track-count-setter input[type="number"] { width: 60px; padding: 0.4rem; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 4px; font-family: var(--font-mono); }
-#track-status-container { display: flex; flex-direction: column; gap: 0.8rem; }
-.scope-controls { display: flex; gap: 2rem; justify-content: center; padding: 0.5rem 0; }
-.phase-tab[data-phase], .phase-content, .progress-card[data-phase] { display: none; }
-.phase-tab.scope-active, .phase-content.scope-active, .progress-card.scope-active { display: block; }
-.progress-grid.scope-active { display: grid; }
-.scope-checkbox { transform: scale(0.8); cursor: pointer; }
-.checklist-item:not(.scope-enabled), .track-status-item:not(.scope-enabled) { opacity: 0.3; }
-.checklist-item:not(.scope-enabled) > label, .checklist-item:not(.scope-enabled) > .progress-checkbox { text-decoration: line-through; pointer-events: none; }
-.track-status-item:not(.scope-enabled) > label, .track-status-item:not(.scope-enabled) > .track-status-select { pointer-events: none; }
-.overall-progress-bar { height: 12px; }
-.overall-progress-text { font-size: 1rem; font-weight: bold; font-family: var(--font-mono); }
+.message-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
 
-/* Authentication Page Styles */
-.auth-container { max-width: 400px; margin: 4rem auto; }
-.auth-form { display: flex; flex-direction: column; gap: 1.5rem; }
-.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-.form-input { padding: 0.8rem; background-color: #252525; border: 1px solid var(--border-color); color: var(--text-color); border-radius: 4px; font-family: var(--font-sans); }
-.auth-link { text-align: center; margin-top: 1rem; color: var(--link-color); }
-.auth-link a { color: var(--accent-blue); }
-.error-message { color: var(--accent-red); text-align: center; margin-bottom: 1rem; }
+.message {
+    padding: 0.5rem 0.8rem;
+    border-radius: 12px;
+    max-width: 80%;
+    line-height: 1.4;
+}
 
+.message.sent {
+    background-color: var(--accent-blue);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.message.received {
+    background-color: #303030;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.message-form {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+}
+
+#message-input {
+    flex-grow: 1;
+    border: none;
+    background-color: #252525;
+    padding: 0.8rem;
+    color: var(--text-color);
+    font-family: var(--font-sans);
+}
+
+#message-input:focus {
+    outline: none;
+}
+
+.message-form button {
+    background-color: var(--accent-blue);
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 0 1rem;
+    cursor: pointer;
+}

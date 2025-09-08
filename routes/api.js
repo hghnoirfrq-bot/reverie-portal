@@ -1,71 +1,135 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, loginUser } = require('../controllers/authController');
-const { getClients, getProject, updateProject } = require('../controllers/projectController');
-const { protect } = require('../middleware/authMiddleware');
 const Client = require('../models/clientModel');
 const Project = require('../models/projectModel');
+const Message = require('../models/messageModel');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { protect } = require('../middleware/authMiddleware');
 
-// Auth Routes
-router.post('/register', registerUser);
-router.post('/login', loginUser);
+const generateToken = (id, isAdmin) => {
+   return jwt.sign({ id, isAdmin }, process.env.JWT_SECRET, { expiresIn: '30d' });
+};
 
-// Data Routes (Protected)
-router.get('/clients', protect, getClients);
-router.get('/clients/:clientId/project', protect, getProject);
-router.post('/projects/:projectId', protect, updateProject);
+// --- AUTH ROUTES ---
+router.post('/register', async (req, res) => {
+   const { name, email, password } = req.body;
+   if (!name || !email || !password) return res.status(400).json({ message: 'Please add all fields' });
+   
+   const userExists = await Client.findOne({ email });
+   if (userExists) return res.status(400).json({ message: 'User with this email already exists.' });
+   
+   const salt = await bcrypt.genSalt(10);
+   const hashedPassword = await bcrypt.hash(password, salt);
+   
+   const userCount = await Client.countDocuments({});
+   const isAdmin = userCount === 0;
+  
+   const user = await Client.create({ name, email, password: hashedPassword, isAdmin });
+   if (user) {
+       res.status(201).json({ message: 'Registration successful' });
+   } else {
+       res.status(400).json({ message: 'Invalid user data' });
+   }
+});
 
-// --- ONE-TIME SEED ROUTE ---
-router.get('/seed', async (req, res) => {
+router.post('/login', async (req, res) => {
+   const { email, password } = req.body;
+   const user = await Client.findOne({ email });
+
+   if (user && (await bcrypt.compare(password, user.password))) {
+       res.json({ token: generateToken(user._id, user.isAdmin), isAdmin: user.isAdmin });
+   } else {
+       res.status(400).json({ message: 'Invalid credentials' });
+   }
+});
+
+// --- DATA ROUTES ---
+router.get('/clients', protect, async (req, res) => {
+   const clients = await Client.find({ isAdmin: false }).select('name status project').populate('project', 'name');
+   res.json(clients);
+});
+
+router.get('/clients/:clientId/project', protect, async (req, res) => {
+   const client = await Client.findById(req.params.clientId).populate('project');
+   if (!client || !client.project) return res.status(404).json({ message: 'Project not found' });
+   res.json(client.project);
+});
+
+router.post('/projects/:projectId', protect, async (req, res) => {
+   const project = await Project.findById(req.params.projectId);
+   if (!project) return res.status(404).json({ message: 'Project not found' });
+   project.set(req.body);
+   const updatedProject = await project.save();
+   res.json(updatedProject);
+});
+
+// --- MESSAGING ROUTES ---
+router.post('/messages', protect, async (req, res) => {
+    const { receiverId, content } = req.body;
+    const senderId = req.user._id;
+
+    if (!receiverId || !content) {
+        return res.status(400).json({ message: 'Missing receiver or content' });
+    }
+
     try {
-        await Project.deleteMany({});
-        await Client.deleteMany({});
-
-        const projectData = {
-            name: "Midnight Frequencies",
-            scope: { html: true, css: true, js: false },
-            html: {
-                projectFoundation: ["References Collected", "Project/Assignment Clarity", "Understand Flow/Process", "Core Creative Purpose Defined"].map(name => ({ name })),
-                instrumentalProgress: ["Main Instrumental Complete", "Arrangement Finalized", "Sound Design Elements", "Transitions & Builds"].map(name => ({ name })),
-                vocalProduction: ["Lead Vocal Recording", "Harmony Layers", "Vocal Arrangement", "Vocal Effects & Processing"].map(name => ({ name })),
-                mixAndMaster: ["Rough Mix Complete", "Final Mix Approved", "Master Reference Check", "Final Master Delivery"].map(name => ({ name })),
-                documentation: ["Session 1 Notes Complete", "Creative Direction Document"].map(name => ({ name })),
-                tracks: [{ trackNumber: 1 }, { trackNumber: 2 }, { trackNumber: 3 }]
-            },
-            css: {
-                visualIdentity: ["Color Palette Finalized", "Typography Selection", "Logo/Brand Mark", "Visual Style Guide"].map(name => ({ name })),
-                albumArtwork: ["Cover Art Concept", "Cover Art Execution", "Individual Track Art", "Alternative Formats"].map(name => ({ name })),
-                promotionalMaterials: ["Social Media Templates", "Press Photos/Imagery", "Merchandise Designs", "Website/EPK Materials"].map(name => ({ name })),
-                visualConsistency: ["Brand Guidelines Document", "Asset Library Organization", "Usage Rights Documentation", "Final Asset Package"].map(name => ({ name })),
-            },
-            js: {
-                marketStrategy: ["Target Audience Defined", "Platform Strategy", "Release Timeline", "Marketing Budget Plan"].map(name => ({ name })),
-                distributionSetup: ["Distributor Selection", "Metadata Preparation", "ISRC/UPC Codes", "Release Scheduling"].map(name => ({ name })),
-                socialMedia: ["Platform Optimization", "Content Calendar", "Engagement Strategy", "Analytics Setup"].map(name => ({ name })),
-                performanceTracking: ["Streaming Analytics", "Revenue Tracking", "Audience Insights", "Performance Reports"].map(name => ({ name })),
-                monetization: ["Streaming Optimization", "Sync Licensing Prep", "Merchandise Strategy", "Revenue Diversification"].map(name => ({ name })),
-            }
-        };
-
-        const newProject = await Project.create(projectData);
-
-        const newClient = new Client({
-            name: "Jordan Smith",
-            email: "jordan.smith@example.com",
-            password: "password123", // This should be hashed in a real scenario, but is ok for seeding.
-            project: newProject._id,
-            status: "PAYMENT DUE",
-            isAdmin: false
+        const message = await Message.create({
+            sender: senderId,
+            receiver: receiverId,
+            content: content
         });
-
-        await newClient.save();
-
-        res.status(201).json({ message: "Database seeded successfully with a sample client and project." });
-
-    } catch (err) {
-        res.status(500).json({ message: "Seed failed: " + err.message });
+        res.status(201).json(message);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error sending message' });
     }
 });
 
-module.exports = router;
+router.get('/messages/:clientId', protect, async (req, res) => {
+    const adminId = req.user._id;
+    const clientId = req.params.clientId;
 
+    try {
+        const messages = await Message.find({
+            $or: [
+                { sender: adminId, receiver: clientId },
+                { sender: clientId, receiver: adminId }
+            ]
+        }).sort({ createdAt: 1 });
+        res.json(messages);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error fetching messages' });
+    }
+});
+
+router.get('/messages', protect, async (req, res) => {
+    if (req.user.isAdmin) {
+        return res.status(403).json({ message: 'Admins should use /api/messages/:clientId' });
+    }
+    const clientId = req.user._id;
+
+    try {
+        const admin = await Client.findOne({ isAdmin: true });
+        if (!admin) return res.status(404).json({ message: 'Admin account not found' });
+        
+        const messages = await Message.find({
+            $or: [
+                { sender: admin._id, receiver: clientId },
+                { sender: clientId, receiver: admin._id }
+            ]
+        }).sort({ createdAt: 1 });
+
+        res.json({ messages, adminId: admin._id });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error fetching messages' });
+    }
+});
+
+// --- SEED ROUTE ---
+router.get('/seed', async (req, res) => {
+   await Project.deleteMany({});
+   await Client.deleteMany({});
+   res.status(200).send("Database cleared. You can now register the first user as admin.");
+});
+
+module.exports = router;

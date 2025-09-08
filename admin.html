@@ -13,7 +13,6 @@
     <header class="header">
         <div class="brand">REVERIE | RVR ADMIN</div>
         <div class="admin-info">
-            <span>LUCTHELEO</span>
             <button class="logout">LOGOUT</button>
         </div>
     </header>
@@ -37,86 +36,95 @@
 
     <template id="admin-panel-template">
         <div class="client-header">
-            <div class="client-info">
-                <h2 id="client-name-header"></h2>
-                <div class="project-name" id="project-name-header"></div>
-            </div>
-            <div class="action-buttons">
-                <button class="btn btn-primary">SEND MESSAGE</button>
-                <button class="btn">VIEW FILES</button>
-            </div>
+            <h2 id="client-name-header"></h2>
+            <p id="project-name-header"></p>
         </div>
 
-        <div class="section" id="overall-progress-section">
-            <div class="section-title">OVERALL PROJECT PROGRESS</div>
+        <div class="overall-progress-section">
+            <div class="section-title">OVERALL PROGRESS</div>
             <div class="progress-summary">
                 <div class="progress-bar overall-progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
                 <div class="progress-text overall-progress-text">0% Complete</div>
             </div>
         </div>
-
-        <div class="section" id="project-scope-section">
-            <div class="section-title">PROJECT SCOPE</div>
-            <div class="scope-controls">
-                <div class="checklist-item"><input type="checkbox" id="scope-html" data-phase="html"><label for="scope-html">HTML</label></div>
-                <div class="checklist-item"><input type="checkbox" id="scope-css" data-phase="css"><label for="scope-css">CSS</label></div>
-                <div class="checklist-item"><input type="checkbox" id="scope-js" data-phase="js"><label for="scope-js">JS</label></div>
-            </div>
-        </div>
         
-        <div class="phase-tabs">
-            <button class="phase-tab" data-phase="html">HTML</button>
-            <button class="phase-tab" data-phase="css">CSS</button>
-            <button class="phase-tab" data-phase="js">JS</button>
-        </div>
+        <div class="project-layout">
+            <div class="project-main">
+                <div class="section scope-controls">
+                    <div class="section-title">PROJECT SCOPE</div>
+                    <div class="scope-toggles">
+                        <label><input type="checkbox" id="scope-html"> HTML</label>
+                        <label><input type="checkbox" id="scope-css"> CSS</label>
+                        <label><input type="checkbox" id="scope-js"> JS</label>
+                    </div>
+                </div>
 
-        <div class="phase-content" id="html-content">
-            <div class="progress-summary">
-                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-                <div class="progress-text">HTML: 0% Complete</div>
+                <div class="phase-tabs">
+                    <button class="phase-tab active" data-phase="html">HTML</button>
+                    <button class="phase-tab" data-phase="css">CSS</button>
+                    <button class="phase-tab" data-phase="js">JS</button>
+                </div>
+
+                <div class="phase-content active" id="html-content">
+                    <div class="progress-summary">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                        <div class="progress-text">HTML: 0% Complete</div>
+                    </div>
+                    <div class="checklist-grid">
+                        <div class="checklist-section" data-section="projectFoundation"><div class="checklist-title">PROJECT FOUNDATION</div></div>
+                        <div class="checklist-section" data-section="instrumentalProgress"><div class="checklist-title">INSTRUMENTAL PROGRESS</div></div>
+                        <div class="checklist-section" data-section="vocalProduction"><div class="checklist-title">VOCAL PRODUCTION</div></div>
+                        <div class="checklist-section" data-section="mixAndMaster"><div class="checklist-title">MIX & MASTER</div></div>
+                        <div class="checklist-section" data-section="documentation"><div class="checklist-title">DOCUMENTATION</div></div>
+                    </div>
+                </div>
+
+                <div class="phase-content" id="css-content">
+                    <div class="progress-summary">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                        <div class="progress-text">CSS: 0% Complete</div>
+                    </div>
+                    <div class="checklist-grid">
+                        <div class="checklist-section" data-section="visualIdentity"><div class="checklist-title">VISUAL IDENTITY</div></div>
+                        <div class="checklist-section" data-section="albumArtwork"><div class="checklist-title">ALBUM ARTWORK</div></div>
+                        <div class="checklist-section" data-section="promotionalMaterials"><div class="checklist-title">PROMOTIONAL MATERIALS</div></div>
+                        <div class="checklist-section" data-section="visualConsistency"><div class="checklist-title">VISUAL CONSISTENCY</div></div>
+                    </div>
+                </div>
+
+                <div class="phase-content" id="js-content">
+                    <div class="progress-summary">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                        <div class="progress-text">JS: 0% Complete</div>
+                    </div>
+                    <div class="checklist-grid">
+                        <div class="checklist-section" data-section="marketStrategy"><div class="checklist-title">MARKET STRATEGY</div></div>
+                        <div class="checklist-section" data-section="distributionSetup"><div class="checklist-title">DISTRIBUTION SETUP</div></div>
+                        <div class="checklist-section" data-section="socialMedia"><div class="checklist-title">SOCIAL MEDIA</div></div>
+                        <div class="checklist-section" data-section="performanceTracking"><div class="checklist-title">PERFORMANCE TRACKING</div></div>
+                        <div class="checklist-section" data-section="monetization"><div class="checklist-title">MONETIZATION</div></div>
+                    </div>
+                </div>
             </div>
-            <div class="checklist-grid">
-                <div class="checklist-section" data-section="projectFoundation"><div class="checklist-title">PROJECT FOUNDATION</div></div>
-                <div class="checklist-section" data-section="trackDevelopment">
-                    <div class="checklist-title">TRACK DEVELOPMENT</div>
-                    <div class="track-count-setter">
-                        <label for="track-count">Set Track Count:</label>
-                        <input type="number" id="track-count" value="3" min="1" max="50">
-                        <button id="generate-tracks-btn" class="btn">SET</button>
+            <div class="project-sidebar">
+                <div class="section">
+                    <div class="section-title">TRACKS</div>
+                    <div class="track-generator">
+                        <input type="number" id="track-count" value="1" min="1">
+                        <button id="generate-tracks-btn" class="btn">Generate</button>
                     </div>
                     <div id="track-status-container"></div>
                 </div>
-                <div class="checklist-section" data-section="instrumentalProgress"><div class="checklist-title">INSTRUMENTAL PROGRESS</div></div>
-                <div class="checklist-section" data-section="vocalProduction"><div class="checklist-title">VOCAL PRODUCTION</div></div>
-                <div class="checklist-section" data-section="mixAndMaster"><div class="checklist-title">MIX & MASTER</div></div>
-                <div class="checklist-section" data-section="documentation"><div class="checklist-title">DOCUMENTATION</div></div>
-            </div>
-        </div>
-
-        <div class="phase-content" id="css-content">
-            <div class="progress-summary">
-                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-                <div class="progress-text">CSS: 0% Complete</div>
-            </div>
-            <div class="checklist-grid">
-                <div class="checklist-section" data-section="visualIdentity"><div class="checklist-title">VISUAL IDENTITY</div></div>
-                <div class="checklist-section" data-section="albumArtwork"><div class="checklist-title">ALBUM ARTWORK</div></div>
-                <div class="checklist-section" data-section="promotionalMaterials"><div class="checklist-title">PROMOTIONAL MATERIALS</div></div>
-                <div class="checklist-section" data-section="visualConsistency"><div class="checklist-title">VISUAL CONSISTENCY</div></div>
-            </div>
-        </div>
-
-        <div class="phase-content" id="js-content">
-            <div class="progress-summary">
-                <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-                <div class="progress-text">JS: 0% Complete</div>
-            </div>
-            <div class="checklist-grid">
-                <div class="checklist-section" data-section="marketStrategy"><div class="checklist-title">MARKET STRATEGY</div></div>
-                <div class="checklist-section" data-section="distributionSetup"><div class="checklist-title">DISTRIBUTION SETUP</div></div>
-                <div class="checklist-section" data-section="socialMedia"><div class="checklist-title">SOCIAL MEDIA</div></div>
-                <div class="checklist-section" data-section="performanceTracking"><div class="checklist-title">PERFORMANCE TRACKING</div></div>
-                <div class="checklist-section" data-section="monetization"><div class="checklist-title">MONETIZATION</div></div>
+                <div class="section">
+                    <div class="section-title">DIRECT MESSAGES</div>
+                    <div class="chat-container">
+                        <div class="message-list" id="message-list"></div>
+                        <form class="message-form" id="message-form">
+                            <input type="text" id="message-input" placeholder="Type a message..." required>
+                            <button type="submit">SEND</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </template>
