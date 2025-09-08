@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVERIE | Client Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portal_styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="brand">REVERIE | RVR</div>
+            <div class="client-name"></div>
+        </div>
+        <button class="logout">LOGOUT</button>
+    </header>
+
+    <div class="main-content">
+        <main class="left-panel">
+             <div class="section" id="overall-progress-section">
+                <div class="section-title">OVERALL PROJECT PROGRESS</div>
+                <div class="progress-summary">
+                    <div class="progress-bar overall-progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                    <div class="progress-text overall-progress-text">Loading...</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">PROJECT PHASE PROGRESS</div>
+                <div class="progress-grid" id="client-progress-grid">
+                    </div>
+                 <div class="next-session">
+                    <div class="next-session-title">NEXT SESSION</div>
+                    <div id="next-session-details">Loading...</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">PROJECT FILES</div>
+                <div class="files-list" id="files-list-container">
+                    <div class="file-item">
+                        <span class="file-name">Track_1_Mix_v2.mp3</span>
+                        <div class="file-actions">
+                            <button class="btn btn-secondary">PREVIEW</button>
+                            <a href="#" class="btn" download>DOWNLOAD</a>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <span class="file-name">Cover_Art_Concept.jpg</span>
+                        <div class="file-actions">
+                            <button class="btn btn-secondary">VIEW</button>
+                            <a href="#" class="btn" download>DOWNLOAD</a>
+                        </div>
+                    </div>
+                    <div class="file-item">
+                        <span class="file-name">Session_Notes.pdf</span>
+                        <div class="file-actions">
+                            <button class="btn btn-secondary">VIEW</button>
+                            <a href="#" class="btn" download>DOWNLOAD</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-panel">
+             <div class="section" id="payment-section">
+                <div class="section-title">PAYMENT</div>
+                <div class="payment-details">
+                    </div>
+            </div>
+            <div class="section">
+                <div class="section-title">DIRECT MESSAGES</div>
+                <div class="chat-container">
+                     <div class="empty-state" style="padding: 1rem 0;">Messaging coming soon.</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">QUICK ACTIONS</div>
+                <div class="quick-actions">
+                    <button class="btn">BOOK NEW SESSION</button>
+                    <button class="btn" id="upload-btn">UPLOAD FILES</button>
+                    <a href="https://t.me/luctheleo" class="btn">TELEGRAM DIRECT</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="binary-signature">
+        L-01001100 T-01010100 L-01001100
+    </div>
+    <script src="portal_logic.js"></script>
+</body>
+</html>

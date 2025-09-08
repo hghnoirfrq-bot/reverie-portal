@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVERIE | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portal_styles.css">
+</head>
+<body>
+    <div class="main-content">
+        <div class="section auth-container">
+            <div class="section-title">PORTAL LOGIN</div>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary">LOGIN</button>
+            </form>
+            <p class="auth-link">Don't have an account? <a href="/register.html">Register here</a>.</p>
+        </div>
+    </div>
+    <script src="portal_logic.js"></script>
+</body>
+</html>
+

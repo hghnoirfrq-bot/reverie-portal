@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVERIE | Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portal_styles.css">
+    <style>
+        .auth-container { max-width: 400px; margin: 4rem auto; }
+        .auth-form { display: flex; flex-direction: column; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-input { padding: 0.8rem; background-color: #252525; border: 1px solid var(--border-color); color: var(--text-color); border-radius: 4px; font-family: var(--font-sans); }
+        .auth-link { text-align: center; margin-top: 1rem; color: var(--link-color); }
+        .auth-link a { color: var(--accent-blue); }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="section auth-container">
+            <div class="section-title">CREATE ACCOUNT</div>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary">REGISTER</button>
+            </form>
+            <p class="auth-link">Already have an account? <a href="/login.html">Login here</a>.</p>
+        </div>
+    </div>
+    <script src="portal_logic.js"></script>
+</body>
+</html>
+
